@@ -6,13 +6,52 @@
     <script src="src/js/jquery.js"> </script>
     <script src="src/js/bootstrap.min.js"> </script>
     <link rel="stylesheet"  href="src/css/bootstrap.min.css"/>
+    <style>
+      .selectboxesrow{
+        border:1px solid black;
+        display:none;
+      }
+    </style>
 	  <script>
 	  $(document).ready(function(){
-			console.log("Muthu * Suba Started");
+			$("#centrebut").click(function(){
+        $(".selectboxesrow").show();
+      });
 	  });
 	  </script>
     </head>
     <body>
       May Node and Express be with you.
+       <main>
+          <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="radio text-center">
+                        <label><input type="radio" name="centrebut" class="radiobutton" id="centrebut"/>Click This</label>
+                        </div>
+                    </div>
+                </div>
+            
+               <div class="row selectboxesrow">
+                    <div class="col-sm-4">
+                        <label for="sel1">Select list:</label>
+                      <select >
+                        <option name="test">Test</option>
+                      </select>                        
+                    </div>
+                    <div class="col-sm-4">
+                        <select >
+                          <option name="test">Test</option>
+                        </select>                        
+                      </div>
+                      <div class="col-sm-4">
+                          <label for="sel1">Select list:</label>
+                          <select >
+                            <option name="test">Test</option>
+                          </select>                        
+                        </div>
+                </div> 
+              </div>
+       </main> 
     </body>
     </html>
