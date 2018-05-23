@@ -2,6 +2,7 @@
     <html lang="en">
     <head>
       <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>MY APP</title>
     <script src="src/js/jquery.js"> </script>
     <script src="src/js/bootstrap.min.js"> </script>
@@ -9,15 +10,129 @@
     <style>
       .selectboxesrow{
         border:1px solid black;
+        /*display:none;*/
+        margin: 7px;
+         padding: 25px;
+      }
+      .fstcontainer,.seccontainer{
+        border:3px solid red;
+        width:200px;
+        height:200px;
+        margin:auto;
+        overflow-y: auto;
+      }
+      #entertext{
+        width: 141px;
+      }
+      .test1err,.test2err,.test3err{
         display:none;
       }
     </style>
 	  <script>
 	  $(document).ready(function(){
 			$("#centrebut").click(function(){
-        $(".selectboxesrow").show();
+        $(".selectboxesrow").show();  
+        calltest();
+        callvalidate();
+        //getworkspace();//hardcoded
       });
-	  });
+    function callvalidate(){
+      $("#entersubmit").click(function(){
+        var test1= $("#test1").val();
+        var test2= $("#test2").val();
+        var test3= $("#entertext").val();
+        if(test1 == "" || test2 == "" || test3 == ""){
+          if(test1==""){
+            $(".test1err").show();          return false;
+          }
+            
+          else
+            $(".test1err").hide();
+
+          if(test2==""){
+            $(".test2err").show();          return false;
+          }
+           
+          else
+            $(".test2err").hide();
+
+          if(test3==""){
+            $(".test3err").show();          return false;
+          }
+           
+          else
+            $(".test3err").hide();
+
+        } 
+        else{
+          $(".test2err").hide();$(".test1err").hide();$(".test3err").hide();          console.log('success');
+          
+          upadteproducts(test2,test3);
+          
+          return true;
+        }
+      });
+    }
+    function upadteproducts(test2,test3){
+      $.ajax({
+          url:"http://localhost:8090/api/products",
+          method:'POST',
+          dataType:'text',
+          data: {'title':test2,'content':test3},
+          success:function(result){
+            var json = result;
+            $(".test2err").show();
+            $(".test2err").html(json);
+            getworkspace();
+          }
+        });
+
+    }
+    function calltest(){
+
+      $.ajax({
+          url:"http://localhost:8090/api/notes",
+          method:'GET',
+          success:function(result){
+            var json = result;
+            $.each(json,function(i,value){  
+              $("#test1").append($('<option>').text(value.title).attr('value',value.title));
+                  $("#test2").append($('<option>').text(value.title).attr('value',value.title));
+            });
+            
+          }
+        });
+    }
+
+    function getworkspace(){
+      $.ajax({
+          url:"http://localhost:8090/api/notes",
+          method:'GET',
+          success:function(result){
+            var json = result;
+            $(".fstcontainer").html('');
+            $(".fstcontainer").append('<ul>');
+            $.each(json,function(i,value){    
+
+              $(".fstcontainer").append('<li draggable="true" ondragstart="draggablevent(event);" id="lidrag'+i+'" >'+value.title+'***'+value.content+'</li>');
+            });
+            $(".fstcontainer").append('</ul>');
+          }
+        });
+    }
+    
+    });
+    function dragoverhandler(ev){
+      ev.preventDefault();
+    }
+    function draggablevent(ev){
+      ev.dataTransfer.setData("tempvar",ev.target.id);
+    }
+    function dropoverhandler(ev){
+      ev.preventDefault();
+      var copieddata = ev.dataTransfer.getData("tempvar");
+      $('.seccontainer #targetul').appendChild(document.getElementById(copieddata));
+    }
 	  </script>
     </head>
     <body>
@@ -33,23 +148,41 @@
                 </div>
             
                <div class="row selectboxesrow">
-                    <div class="col-sm-4">
-                        <label for="sel1">Select list:</label>
-                      <select >
-                        <option name="test">Test</option>
-                      </select>                        
+                    <div class="col-sm-3">
+                        <label for="test1">Select list:</label>
+                    </br>
+                      <select class="fstbox" name="test1" id="test1">
+                        <option value="" >Test</option>
+                      </select>  
+                    </br>
+                    <span class="test1err">Please Select</span>                      
                     </div>
-                    <div class="col-sm-4">
-                        <select >
-                          <option name="test">Test</option>
-                        </select>                        
+                    <div class="col-sm-3">
+                        <label for="test2">Select list:</label> </br>
+                        <select class="secondbox" name="test2" id="test2">
+                          <option value="">Test</option>
+                        </select>    
+                      </br>
+                      <span class="test2err">Please Select</span>                      
                       </div>
-                      <div class="col-sm-4">
-                          <label for="sel1">Select list:</label>
-                          <select >
-                            <option name="test">Test</option>
-                          </select>                        
-                        </div>
+                      <div class="col-sm-3" >
+                          <label for="entertext">Enter the text :</label> </br>
+                          <input type="text" name="entertext" id="entertext"/>    
+                        </br>
+                        <span class="test3err">Please Enter</span>                      
+                      </div>
+                      <div class="col-sm-3">
+                          <label for="entersubmit">Click the button :</label> </br>
+                          <input type="submit" name="entersubmit" id="entersubmit"/>                        
+                      </div>
+                </div> 
+                <div class="row selectboxesrow">
+                <div class="col-sm-6">
+                <div class="fstcontainer"><ul><li draggable="true" ondragstart="draggablevent(event);" id="lidragw22" >sdfsdfsdf</li></ul> </div>
+              </div>
+              <div class="col-sm-6">
+                  <div class="seccontainer" ><ul id="targetul" ondrop="dropoverhandler(event)" ondragover="dragoverhandler(event)" ><li>head text</li></ul> </div>
+                </div>
                 </div> 
               </div>
        </main> 

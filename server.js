@@ -47,10 +47,12 @@ router.route('/notes').get(function (req, res) {
 
 router.route('/products').post(function (req, res) {
     console.log("in add");
-    var p = new product();
-    p.title = req.body.title;
-    p.price = req.body.content;
-    p.save(function (err) {
+    if(!req.body.content) {
+        res.status(400).send({message: "Note can not be empty"});
+    }
+
+    var note = new Note({title: req.body.title || "Untitled Note", content: req.body.content});
+    note.save(function (err) {
         if (err) {
             res.send(err);
         }
