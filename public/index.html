@@ -30,6 +30,7 @@
     </style>
 	  <script>
 	  $(document).ready(function(){
+      $(".selectboxesrow").hide(); 
 			$("#centrebut").click(function(){
         $(".selectboxesrow").show();  
         calltest();
@@ -131,7 +132,7 @@
     function dropoverhandler(ev){
       ev.preventDefault();
       var copieddata = ev.dataTransfer.getData("tempvar");
-      $('.seccontainer #targetul').appendChild(document.getElementById(copieddata));
+      ev.target.appendChild(document.getElementById(copieddata));
     }
 	  </script>
     </head>
