@@ -1,0 +1,89 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>MY ANGULAR APP</title>
+		<script src="src/js/jquery.js"> </script>
+		<script src="src/js/bootstrap.min.js"> </script>
+		<script src="src/js/angular.min.js"> </script>
+		<script src="src/js/angular-route.min.js"> </script>
+		<script src="src/js/angularcrud.js"> </script>
+		<link rel="stylesheet"  href="src/css/bootstrap.min.css"/>
+    <style>
+	 .sidebar ul.components,.tablerows {
+		padding: 20px 0;
+		border-bottom: 1px solid #47748b;
+		}
+		.sidebar{
+		margin-left:auto;
+		float:left;
+		min-width: 250px;
+		max-width: 250px;
+		background: #7386D5;
+		color: #fff;
+		transition: all 0.3s;
+		}
+		.wrapper{
+		display:flex;
+		align-items:stretch;
+		background: #fafafa;
+		}
+		nav .logo {
+		background: url(src/img/newiconsprite2_appstore.png) no-repeat;
+		background-position: 0 0;
+		width: 35px;
+		height: 35px;
+		text-decoration: none;
+		outline-style: none;
+		    display: block;
+
+		}
+		.sidebar ul li a{
+					color: #fafafa;
+		}
+		.sidebar ul li{
+			margin: 10px 10px;
+			font-size: 1.1em;
+
+		}
+		.samplecrudcontainer{
+		    min-height: 100vh;
+			padding: 56px;
+			transition: all 0.3s;
+		}
+
+    </style>
+	  <script>
+		$(document).ready(function(){
+	  
+    
+		});
+			
+	  </script>
+    </head>
+    <body class="wrapper">
+		<nav class="sidebar">
+		<div class="sidebar-header"><a class="logo" ></a></div>
+		<ul class="list-unstyled components">
+			<li>
+				<a href="#!/managenotes"> Manage Products</a>
+			</li>
+			<li>
+				<a href="#!/manageemployee"> Manage Users</a>
+			</li>
+			<li>
+				<a  href="#"> Manage Payments</a>
+			</li>
+		</ul>
+		<div>
+		</nav>
+       <main class="container samplecrudcontainer">
+	    <div ng-app="samplecrud">
+		<ng-view></ng-view>
+        </div>
+       </main> 
+	   <footer>
+		</footer>
+    </body>
+    </html>
