@@ -30,13 +30,35 @@
     </style>
 	  <script>
 	  $(document).ready(function(){
-      $(".selectboxesrow").hide(); 
-			$("#centrebut").click(function(){
+      
+    
+
+      $(".insideclass").load('inside.html',function(){
+ 
+ 
+        $(".selectboxesrow").hide();
+      });
+      
+    $('body').on('dragstart','.dragli',function(ev){
+      ev.originalEvent.dataTransfer.setData("tempvar",ev.target.id);
+    });
+    $('body').on('dragover','#targetul',function(ev){
+      ev.preventDefault();
+    });
+    $('body').on('drop','#targetul',function(ev){
+      ev.preventDefault();
+      var copieddata = ev.originalEvent.dataTransfer.getData("tempvar");
+      ev.target.appendChild(document.getElementById(copieddata));
+    });
+
+        $("body").on('click','#centrebut',function(){
         $(".selectboxesrow").show();  
         calltest();
         callvalidate();
         //getworkspace();//hardcoded
       });
+
+
     function callvalidate(){
       $("#entersubmit").click(function(){
         var test1= $("#test1").val();
@@ -115,7 +137,7 @@
             $(".fstcontainer").append('<ul>');
             $.each(json,function(i,value){    
 
-              $(".fstcontainer").append('<li draggable="true" ondragstart="draggablevent(event);" id="lidrag'+i+'" >'+value.title+'***'+value.content+'</li>');
+              $(".fstcontainer").append('<li class="dragli" draggable="true"  id="lidrag'+i+'" >'+value.title+'***'+value.content+'</li>');
             });
             $(".fstcontainer").append('</ul>');
           }
@@ -123,69 +145,15 @@
     }
     
     });
-    function dragoverhandler(ev){
-      ev.preventDefault();
-    }
-    function draggablevent(ev){
-      ev.dataTransfer.setData("tempvar",ev.target.id);
-    }
-    function dropoverhandler(ev){
-      ev.preventDefault();
-      var copieddata = ev.dataTransfer.getData("tempvar");
-      ev.target.appendChild(document.getElementById(copieddata));
-    }
+
 	  </script>
     </head>
     <body>
-      May Node and Express be with you.
+      
        <main>
-          <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="radio text-center">
-                        <label><input type="radio" name="centrebut" class="radiobutton" id="centrebut"/>Click This</label>
-                        </div>
-                    </div>
-                </div>
-            
-               <div class="row selectboxesrow">
-                    <div class="col-sm-3">
-                        <label for="test1">Select list:</label>
-                    </br>
-                      <select class="fstbox" name="test1" id="test1">
-                        <option value="" >Test</option>
-                      </select>  
-                    </br>
-                    <span class="test1err">Please Select</span>                      
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="test2">Select list:</label> </br>
-                        <select class="secondbox" name="test2" id="test2">
-                          <option value="">Test</option>
-                        </select>    
-                      </br>
-                      <span class="test2err">Please Select</span>                      
-                      </div>
-                      <div class="col-sm-3" >
-                          <label for="entertext">Enter the text :</label> </br>
-                          <input type="text" name="entertext" id="entertext"/>    
-                        </br>
-                        <span class="test3err">Please Enter</span>                      
-                      </div>
-                      <div class="col-sm-3">
-                          <label for="entersubmit">Click the button :</label> </br>
-                          <input type="submit" name="entersubmit" id="entersubmit"/>                        
-                      </div>
-                </div> 
-                <div class="row selectboxesrow">
-                <div class="col-sm-6">
-                <div class="fstcontainer"><ul><li draggable="true" ondragstart="draggablevent(event);" id="lidragw22" >sdfsdfsdf</li></ul> </div>
-              </div>
-              <div class="col-sm-6">
-                  <div class="seccontainer" ><ul id="targetul" ondrop="dropoverhandler(event)" ondragover="dragoverhandler(event)" ><li>head text</li></ul> </div>
-                </div>
-                </div> 
-              </div>
+            <div class="insideclass">
+
+           </div> 
        </main> 
     </body>
     </html>
