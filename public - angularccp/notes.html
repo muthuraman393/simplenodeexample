@@ -1,0 +1,46 @@
+			<div class="viewcontroller" >
+				<div class="rows">
+						<form method="POST">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="text" name="emp" id="emp" class="form-control">
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="button" ng-click="addrow();" name="empbtn" id="empbtn" value="Filter submit" class="btn btn-primary form-control">
+							</div>
+						</div>
+						<div class="col-sm-5"></div>
+
+						</form>
+				</div>
+				<div class="clearfix"></div>
+				<div class="rows tablerows">
+					<div class="columns">
+						<div class="col-sm-4">
+							<p>ID</p>
+						</div>
+						<div class="col-sm-4">
+							<p>Title</p>						
+						</div>
+						<div class="col-sm-4">
+							<p>Content</p>						
+						</div>
+					</div>
+				</div>
+				<div class="rows tablerows" ng-repeat="emp in notes">
+					<div class="columns">
+					    <div class="col-sm-4">
+							<p>{{$index+1}}</p>
+						</div>
+						<div class="col-sm-4">
+							<p>{{emp.title | recordsfilter}}</p>
+						</div>
+						<div class="col-sm-4">
+							<p>{{emp.content | recordsfilter}}</p>						
+						</div>
+
+					</div>
+				</div>
+			</div>

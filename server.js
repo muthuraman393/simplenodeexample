@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var app = express();
 var mongoose = require('mongoose');
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public - angularccp')); /*change it to public to load simple jquery crud application*/
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
