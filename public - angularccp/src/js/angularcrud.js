@@ -11,7 +11,11 @@
 	{
 	templateUrl:'notes.html',
 	controller:'notescontroller'
-	}).otherwise({ redirectTo:'\home'});
+	}).when(
+	'/editnotes/:id',{
+	templateUrl:'edit.html',
+	controller:'notescontroller'}
+	).otherwise({ redirectTo:'\home'});
 	
 	});
 		/*http requesting service*/
@@ -20,20 +24,83 @@
 	 this.getnotes = function(url){
 			return $http.get(url); 
 	 }
-	
-	return ({getnotes:this.getnotes});
+	 this.addnotes = function(url,data){
+		 return $http.post(url,data);
+	 }
+	 this.getnote = function(url){
+		 return $http.get(url);/*just change this to deleete method for deleting the record*/
+	 }
+	this.updatenote = function(url,data){
+		 return $http.put(url,data);
+	 }
+	return ({getnotes:this.getnotes,addnotes:this.addnotes,getnote:this.getnote,updatenote:this.updatenote});
 	}]);
 	/*http requesting service*/
 	/*notes controller*/
-	
-	crudapp.controller('notescontroller',['$scope','$rootScope','apiservice',function($scope,$rootScope,apiservice){
-	 $scope.notes = [{title : 'Webapp',content:'W3schools.com'}];
+	crudapp.controller('editnotescontroller',['$scope','$rootScope','apiservice','$location',function($scope,$rootScope,apiservice,$location){
+		
+	}]);
+	crudapp.controller('notescontroller',['$scope','$rootScope','apiservice','$location','$routeParams', function($scope,$rootScope,apiservice,$location,$routeParams){
+	 $scope.note = {title : 'Webapp',content:'W3schools.com'};
+	 
+	 var hasitem = $routeParams;
+
 	 $scope.notescall = function(){
 	  apiservice.getnotes('api/notes').then(function(response){
 	  	 $scope.notes = response.data;
 	  });
+	  $scope.createmsg = '';
 	  };
-	$scope.notescall();
+
+	  
+	if(hasitem.id != undefined){		 
+		 apiservice.getnote('api/products/'+hasitem.id).then(function(response){
+	  	 $scope.editnote = response.data;
+	  });
+		 
+	 }
+	 else{
+			$scope.notescall();
+	 }
+	 console.log(hasitem);
+	 
+	 $scope.ngeditform = function(){
+		 $scope.createmsg = '';
+		  if($scope.form.editform.$valid){
+			  $scope.editnotes();
+		  }
+		  else
+			  return false;
+	 }
+	 	  $scope.editnotes = function(){
+			  apiservice.updatenote('api/products/'+hasitem.id,$scope.editnote).then(function(response){
+				  
+				 $scope.createmsg =   response.data.message;
+			  });
+		  };
+	 
+	 	$scope.navigate= function(id){
+		var losst= window.location.href;
+		$location.path('/editnotes/'+id);
+	};	
+	  $scope.ngsubmitform = function(){
+		  $scope.createmsg = '';
+		  if($scope.form.addform.$valid){
+			  $scope.addnote();
+		  }
+		  else
+			  return false;
+		  
+	  }
+	  $scope.addnote = function(){
+		  apiservice.addnotes('api/products',$scope.note).then(function(response){
+			  console.log(response.data);
+			  
+			  $scope.notes.push(angular.copy($scope.note));
+			  $scope.createmsg = response.data.message;
+		  });
+		  
+	  };
 	}]);
 	
 	crudapp.filter('recordsfilter',function(){

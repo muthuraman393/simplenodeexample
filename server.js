@@ -63,7 +63,7 @@ router.route('/products').post(function (req, res) {
 router.route('/products/:product_id').get(function (req, res) {
 
 
-    product.findById(req.params.product_id, function (err, prod) {
+    Note.findById(req.params.product_id, function (err, prod) {
         if (err)
             res.send(err);
         res.json(prod);
@@ -72,12 +72,12 @@ router.route('/products/:product_id').get(function (req, res) {
 
 router.route('/products/:product_id').put(function (req, res) {
 
-    product.findById(req.params.product_id, function (err, prod) {
+    Note.findById(req.params.product_id, function (err, prod) {
         if (err) {
             res.send(err);
         }
         prod.title = req.body.title;
-        prod.price = req.body.content;
+        prod.content = req.body.content;
 
         prod.save(function (err) {
             if (err)
@@ -91,7 +91,7 @@ router.route('/products/:product_id').put(function (req, res) {
 
 router.route('/products/:product_id').delete(function (req, res) {
 
-    product.remove({ _id: req.param.product_id }, function (err, prod) {
+    Note.remove({ _id: req.params.product_id }, function (err, prod) {
         if (err) {
             res.send(err);
         }

@@ -3,44 +3,76 @@
 						<form method="POST">
 						<div class="col-sm-3">
 							<div class="form-group">
-								<input type="text" name="emp" id="emp" class="form-control">
+								<input type="text" name="emp" id="emp" ng-model="searchText" class="form-control"  placeholder="Enter something to search">
 							</div>
 						</div>
-						<div class="col-sm-3">
-							<div class="form-group">
-								<input type="button" ng-click="addrow();" name="empbtn" id="empbtn" value="Filter submit" class="btn btn-primary form-control">
-							</div>
-						</div>
-						<div class="col-sm-5"></div>
+						
+						<div class="col-sm-9"></div>
 
 						</form>
 				</div>
 				<div class="clearfix"></div>
-				<div class="rows tablerows">
-					<div class="columns">
-						<div class="col-sm-4">
-							<p>ID</p>
-						</div>
-						<div class="col-sm-4">
-							<p>Title</p>						
-						</div>
-						<div class="col-sm-4">
-							<p>Content</p>						
-						</div>
+				<div class="rows">
+				<form name="form.addform" ng-submit="ngsubmitform()" novalidate>
+					<div class="col-sm-4">
+					<div class="form-group" ng-class= "{'has-error':(form.addform.title.$invalid && !form.addform.title.$pristine)}">
+						<input type="text" placeholder="Enter the title" name="title" class="form-control" required   ng-model="note.title"/>
+					</div>
+					</div>
+					<div class="col-sm-4">
+					<div class="form-group" ng-class = "{'has-error':(form.addform.content.$invalid && !form.addform.content.$pristine)}">
+						<input type="text"  placeholder="Enter the Content"  name="content" required  class="form-control" ng-model="note.content"/>
+					</div>
+					</div>
+					<div class="col-sm-4">
+					<div class="form-group">
+						<input type="submit" name="submit" class="btn btn-primary form-control" value="Add New Note"  />
+					</div>
+					</div>
+					
+				
+				</form>
+				</div>
+				<div class="rows">
+					<div class="col-sm-12 text-center">
+						<p ng-bind="createmsg"></p>
 					</div>
 				</div>
-				<div class="rows tablerows" ng-repeat="emp in notes">
+				<div class="clearfix"></div>
+				<div class="rows tablerows">
 					<div class="columns">
-					    <div class="col-sm-4">
-							<p>{{$index+1}}</p>
+						<div class="col-sm-2">
+							<p>ID</p>
+						</div>
+						<div class="col-sm-2">
+							<p>Title - {{form.addform.title.$invalid}} - {{form.addform.title.$pristine}}</p>						
 						</div>
 						<div class="col-sm-4">
+							<p>Content - {{form.addform.content.$invalid}} - {{form.addform.content.$pristine}}</p>						
+						</div>
+						<div class="col-sm-4">
+							<p>Update</p>						
+						</div>
+
+					</div>
+				</div>
+				<div class="rows tablerows" ng-repeat="emp in notes | filter:searchText">
+					<div class="columns">
+					    <div class="col-sm-2">
+							<p>{{$index+1}}-{{emp._id}}</p>
+						</div>
+						<div class="col-sm-2">
 							<p>{{emp.title | recordsfilter}}</p>
 						</div>
 						<div class="col-sm-4">
 							<p>{{emp.content | recordsfilter}}</p>						
 						</div>
-
+						<div class="col-sm-2">
+							<p><input type="button" name="edit" value="Edit" class="btn btn-primary" ng-click="navigate(emp._id);"></p>						
+						</div>
+						<div class="col-sm-2">
+							<p><input type="button" name="status" value="Status" class="btn btn-primary"></p>						
+						</div>
 					</div>
 				</div>
 			</div>
